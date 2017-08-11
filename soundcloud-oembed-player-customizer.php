@@ -26,6 +26,18 @@ along with {Plugin Name}. If not, see {License URI}.
 */
 ?>
 <?php
+add_action( 'admin_enqueue_scripts', 'wptuts_add_color_picker' );
+function wptuts_add_color_picker( $hook ) {
+ 
+    if( is_admin() ) { 
+     
+        // Add the color picker css file       
+        wp_enqueue_style( 'wp-color-picker' ); 
+         
+        // Include our custom jQuery file with WordPress Color Picker dependency
+        wp_enqueue_script( 'custom-script-handle', plugins_url( 'js/player-live-update.js', __FILE__ ), array( 'wp-color-picker' ), false, true ); 
+    }
+}
 function scec_options_page() {
 	//Genrate Soundcloud embeded player customizer admin page
     add_menu_page(
@@ -92,9 +104,9 @@ function scec_show_artwork() {
 function scec_play_button_color() {
 	$play_button_color = default_Value(esc_attr( get_option( 'play_button_color' ) ), 'FF5500');
 	if( esc_attr( get_option( 'swap_player' ) ) == "0"){
-		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" placeholder="Play Button Color" />';
+		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" placeholder="Play Button Color" class="player_color"/>';
 	}else{
-		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" placeholder="Play Button Color" readonly /> ';
+		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" placeholder="Play Button Color" class="player_color" readonly /> ';
 	}
 }
 function scec_auto_play() {
