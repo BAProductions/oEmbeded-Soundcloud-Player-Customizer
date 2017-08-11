@@ -28,18 +28,22 @@ along with {Plugin Name}. If not, see {License URI}.
 <?php
 add_action( 'admin_enqueue_scripts', 'wptuts_add_color_picker' );
 function wptuts_add_color_picker( $hook ) {
- 
     if( is_admin() ) { 
      
         // Add the color picker css file       
         wp_enqueue_style( 'wp-color-picker' ); 
-         
         // Include our custom jQuery file with WordPress Color Picker dependency
-        wp_enqueue_script( 'custom-script-handle', plugins_url( 'js/player-live-update.js', __FILE__ ), array( 'wp-color-picker' ), false, true ); 
+        wp_enqueue_script( 'custom-script-handle', plugins_url( 'js/player-color-picker.js', __FILE__ ), array( 'wp-color-picker' ), false, true );
+		// Include our custom jQuery file with to handle the live update of both player
+        wp_enqueue_script( 'scec_admin_js', plugins_url( 'js/player-live-update.js', __FILE__ ), array( 'jquery' ), false, true );
+		// Include css to style the Soundcloud embedded player customizer admin page
+		wp_register_style( 'scec_admin_style', plugins_url( '/css/scec.admin.css', __FILE__ ), array(), '1.0.0', 'all' );
+		// Include css to style the Soundcloud embedded player customizer admin page
+	    wp_enqueue_style( 'scec_admin_style' );
     }
 }
 function scec_options_page() {
-	//Genrate Soundcloud embeded player customizer admin page
+	//Genrate Soundcloud embedded player customizer admin page
     add_menu_page(
         'Soundcloud Embeded player Customizer',
         __('SC Customizer'),
@@ -95,39 +99,39 @@ function default_Value($options, $default_value){
 }
 function scec_swap_player() {
 	$swap_player = esc_attr( get_option( 'swap_player' ) );
-	echo '<input type="checkbox" name="swap_player" value="0" placeholder="Enable Mini Player" '.is_checked( $swap_player, 0 ).'/>';
+	echo '<input type="checkbox" name="swap_player" value="0" id="swap_player" placeholder="Enable Mini Player" '.is_checked( $swap_player, 0 ).'/>';
 }
 function scec_show_artwork() {
 	$show_artwork = default_Value(esc_attr( get_option( 'show_artwork' ), '0' ));
-	echo '<input type="checkbox" name="show_artwork" value="1" placeholder="Show Arework" '.is_checked( $show_artwork, 1 ).'/>';
+	echo '<input type="checkbox" name="show_artwork" value="1" id="show_artwork" placeholder="Show Arework" '.is_checked( $show_artwork, 1 ).'/>';
 }
 function scec_play_button_color() {
 	$play_button_color = default_Value(esc_attr( get_option( 'play_button_color' ) ), 'FF5500');
 	if( esc_attr( get_option( 'swap_player' ) ) == "0"){
-		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" placeholder="Play Button Color" class="player_color"/>';
+		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" id="play_button_color" placeholder="Play Button Color" class="player_color"/>';
 	}else{
-		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" placeholder="Play Button Color" class="player_color" readonly /> ';
+		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" id="play_button_color" placeholder="Play Button Color" class="player_color" readonly /> ';
 	}
 }
 function scec_auto_play() {
 	$auto_play = esc_attr( get_option( 'auto_play' ) );
-	echo '<input type="checkbox" name="auto_play" value="1" placeholder="Enable Auto Play" '.is_checked( $auto_play, 1 ).'/>';
+	echo '<input type="checkbox" name="auto_play" value="1" id="auto_play" placeholder="Enable Auto Play" '.is_checked( $auto_play, 1 ).'/>';
 }
 function scec_hide_related() {
 	$hide_related = default_Value(esc_attr( get_option( 'hide_related' ), '0' ));
-	echo '<input type="checkbox" name="hide_related" value="0" placeholder="Hide Related" '.is_checked( $hide_related, 0 ).'/>';
+	echo '<input type="checkbox" name="hide_related" value="0" id="hide_related" placeholder="Hide Related" '.is_checked( $hide_related, 0 ).'/>';
 }
 function scec_show_user() {
 	$show_user = default_Value(esc_attr( get_option( 'show_user' ), '1' ));
-	echo '<input type="checkbox" name="show_user" value="1" placeholder="Show User" '.is_checked( $show_user, 1 ).'/>';
+	echo '<input type="checkbox" name="show_user" value="1" id="show_user" placeholder="Show User" '.is_checked( $show_user, 1 ).'/>';
 }
 function scec_show_comments() {
 	$show_comments = default_Value(esc_attr( get_option( 'show_comments' ), '1' ));
-	echo '<input type="checkbox" name="show_comments" value="1" placeholder="Show Comments" '.is_checked( $show_comments, 1 ).'/>';
+	echo '<input type="checkbox" name="show_comments" value="1" id="show_comments" placeholder="Show Comments" '.is_checked( $show_comments, 1 ).'/>';
 }
 function scec_show_reposts() {
 	$show_reposts = default_Value(esc_attr( get_option( 'show_reposts' ), '1' ));
-	echo '<input type="checkbox" name="show_reposts" value="1" placeholder="Show Repost" '.is_checked( $show_reposts, 1 ).'/>';
+	echo '<input type="checkbox" name="show_reposts" value="1" id="show_reposts" placeholder="Show Repost" '.is_checked( $show_reposts, 1 ).'/>';
 }
 /*function scec_player_height() {
 	$player_height = esc_attr( get_option( 'player_height' ) );

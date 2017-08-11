@@ -1,0 +1,12 @@
+#souncloud_players_customizer_form {
+	float:left;
+	width:50%; 
+}
+#souncloud_players {
+	float:right;
+	width:50%; 
+}
+#single_player{
+}
+#playlist_player{
+}
