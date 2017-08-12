@@ -99,7 +99,7 @@ function default_Value($options, $default_value){
 }
 function scec_swap_player() {
 	$swap_player = esc_attr( get_option( 'swap_player' ) );
-	echo '<input type="checkbox" name="swap_player" value="0" id="swap_player" placeholder="Enable Mini Player" '.is_checked( $swap_player, 0 ).'/>';
+	echo '<input type="checkbox" name="swap_player" value="1" id="swap_player" placeholder="Enable Mini Player" '.is_checked( $swap_player, 1 ).'/>';
 }
 function scec_show_artwork() {
 	$show_artwork = default_Value(esc_attr( get_option( 'show_artwork' ), '0' ));
@@ -172,11 +172,14 @@ function scec_options_page_html() {
 function is_options_true($options) {
 	return ( $options ==1 ? 'true' : 'false' );
 }
+function is_options_false($options) {
+	return ( $options ==1 ? 'false' : 'true' );
+}
 function soundCloud_mini_embed($html, $url) {
   
   // Only use this filter on Soundcloud embeds
   if(preg_match("/soundcloud.com/", $url)) {
-	$visual				=	is_options_true(get_option( 'swap_player' ));    	// change deafult Soundcloud player on wordpress to the Soundcloud mini player dont touch
+	$visual				=	is_options_false(get_option( 'swap_player' ));    	// change deafult Soundcloud player on wordpress to the Soundcloud mini player dont touch
 	$show_artwork		=	is_options_true(get_option( 'show_artwork' ));    	// change deafult Soundcloud player on wordpress to the Soundcloud mini player dont touch
 	$play_button_color 	= 	$output = str_replace( '#', '', default_Value( get_option( 'play_button_color' ), 'FF5500' ) );					// change play button color of the Soundcloud mini player change
 	$auto_play			=	is_options_true(get_option( 'auto_play' )); 		// enable autoplay for the Soundcloud mini player dont touch vey anoying 
