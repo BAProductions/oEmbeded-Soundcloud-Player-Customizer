@@ -1,1 +1,2 @@
-<?php defined( 'ABSPATH' ) or die( 'No script kiddies please! ' ); ?>
+<?php
+// Sliecne id golden

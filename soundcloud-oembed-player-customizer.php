@@ -25,22 +25,35 @@ You should have received a copy of the GNU General Public License
 along with {Plugin Name}. If not, see {License URI}.
 */
 ?>
+<?php 
+if ( ! defined( 'ABSPATH' ) ) {
+	die;
+}
+
+defined( 'ABSPATH' ) or die("Hay, you cant access this file you, silly person!");
+
+if ( !function_exists("add_action") ) {
+	echo "Hay, you cant access this file you, silly person!";
+	die;
+}
+?>
 <?php
 add_action( 'admin_enqueue_scripts', 'wptuts_add_color_picker' );
 function wptuts_add_color_picker( $hook ) {
     if( is_admin() ) { 
-     
-        // Add the color picker css file       
-        wp_enqueue_style( 'wp-color-picker' ); 
-        // Include our custom jQuery file with WordPress Color Picker dependency
-        wp_enqueue_script( 'custom-script-handle', plugins_url( 'js/player-color-picker.js', __FILE__ ), array( 'wp-color-picker' ), false, true );
-		// Include our custom jQuery file with to handle the live update of both player
-        wp_enqueue_script( 'scec_admin_js', plugins_url( 'js/player-live-update.js', __FILE__ ), array( 'jquery' ), false, true );
-		// Include css to style the Soundcloud embedded player customizer admin page
-		wp_register_style( 'scec_admin_style', plugins_url( '/css/scec.admin.css', __FILE__ ), array(), '1.0.0', 'all' );
-		// Include css to style the Soundcloud embedded player customizer admin page
-	    wp_enqueue_style( 'scec_admin_style' );
-    }
+     	if( 'toplevel_page_sc-customizer' == $hook ){ 
+        	// Add the color picker css file       
+        	wp_enqueue_style( 'wp-color-picker' ); 
+       		// Include our custom jQuery file with WordPress Color Picker dependency
+        	wp_enqueue_script( 'custom-script-handle', plugins_url( 'js/player-color-picker.js', __FILE__ ), array( 'wp-color-picker' ), '1.0.0', true );
+			// Include our custom jQuery file with to handle the live update of both player
+        	wp_enqueue_script( 'scec_admin_js', plugins_url( 'js/player-live-update.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
+			// Include css to style the Soundcloud embedded player customizer admin page
+			wp_enqueue_style( 'scec_admin_style', plugins_url( '/css/scec.admin.css', __FILE__ ), array(), '1.0.0', 'all' );
+    	}else{
+			return $hook; 
+		}
+	}
 }
 function scec_options_page() {
 	//Genrate Soundcloud embedded player customizer admin page
@@ -175,8 +188,7 @@ function is_options_true($options) {
 function is_options_false($options) {
 	return ( $options ==1 ? 'false' : 'true' );
 }
-function soundCloud_mini_embed($html, $url) {
-  
+function soundCloud_embed($html, $url) {
   // Only use this filter on Soundcloud embeds
   if(preg_match("/soundcloud.com/", $url)) {
 	$visual				=	is_options_false(get_option( 'swap_player' ));    	// change deafult Soundcloud player on wordpress to the Soundcloud mini player dont touch
@@ -225,4 +237,4 @@ function soundCloud_mini_embed($html, $url) {
   return $html;
 }
 // hook into the Wordpress oembed filter
-add_filter('embed_oembed_html', 'soundCloud_mini_embed', 10, 3);
+add_filter('embed_oembed_html', 'soundCloud_embed', 10, 3);
