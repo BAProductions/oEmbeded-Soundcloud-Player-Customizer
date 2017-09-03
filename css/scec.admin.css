@@ -11,6 +11,11 @@
 }
 #souncloud_players td {
 	padding:0 8px 0 4px;
+	color:#FFF;
+}
+#souncloud_players td span {
+	color:#FFF;
+	font-weight:bold
 }
 #souncloud_players iframe {
 	border:#333330 solid 2px;

@@ -14,17 +14,6 @@
 		var show_user			= $('#show_user');
 		var show_reposts		= $('#show_reposts');
 		// Swap Player
-		if (swap_player.checked){
-			var url = single_player.attr('src').replace( 'visual=true', 'visual=false');
-			var url2 = playlist_player.attr('src').replace( 'visual=true', 'visual=false');
-			single_player.attr('src',url);
-			playlist_player.attr('src',url2);
-		}else{
-			var url = single_player.attr('src').replace( 'visual=false', 'visual=true');
-			var url2 = playlist_player.attr('src').replace( 'visual=false', 'visual=true');
-			single_player.attr('src',url);
-			playlist_player.attr('src',url2);
-		}
 		swap_player.click(function(){
 			if (this.checked){
 				var url = single_player.attr('src').replace( 'visual=true', 'visual=false');
