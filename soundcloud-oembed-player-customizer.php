@@ -50,12 +50,18 @@ class scepc
 			add_action( 'admin_init', array($this, 'scepc_custom_settings'));
 			add_action( 'embed_oembed_html', array($this, 'soundcloud_embed'), 10, 3);
 			register_activation_hook( __FILE__, array($this, 'scepc_activate') );
+			register_deactivation_hook( __FILE__, array($this, 'scepc_deactivate') );
 	}
 	public function scepc_activate() {
 		// Activation code here
 		$this->scepc_options_page();
 		$this->scepc_add_color_picker();
 		$this->scepc_custom_settings();
+		global $wp_rewrite;
+		$wp_rewrite->flush_rules();
+	}
+	public function scepc_deactivate() {
+		// Deactivation code here
 		global $wp_rewrite;
 		$wp_rewrite->flush_rules();
 	}
@@ -87,7 +93,6 @@ class scepc
 			plugin_dir_url(__FILE__)  . 'images/icon_scec.png',
 			110
 		);
-		//add_theme_page(__('SC Customizer'), __('SC Customizer'), 'edit_theme_options', 'csc-customizer', array($this, 'scepc_options_page_html'));
 	}
 	public function scepc_custom_settings() {
 		register_setting( 'scepc_settings_group', 'swap_player' );
