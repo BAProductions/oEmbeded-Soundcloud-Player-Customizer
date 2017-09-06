@@ -94,25 +94,6 @@ class oEmbedSoundcloudPlayerCustomizer
 			110
 		);
 	}
-public function scepc_custom_settings() {
-		register_setting( 'scepc_settings_group', 'swap_player' );
-		register_setting( 'scepc_settings_group', 'show_artwork' );
-		register_setting( 'scepc_settings_group', 'play_button_color', array(&$this, 'scepc_sanitize_color_handler') );
-		register_setting( 'scepc_settings_group', 'auto_play' );
-		register_setting( 'scepc_settings_group', 'hide_related' );
-		register_setting( 'scepc_settings_group', 'show_comments' );
-		register_setting( 'scepc_settings_group', 'show_user' );
-		register_setting( 'scepc_settings_group', 'show_reposts' );
-		add_settings_section( 'soundcloud_embeded_player_options', 'Player Setting', array($this, 'soundcloud_embeded_player_options'), 'scep_customizer');
-		add_settings_field( 'swap_player', 'Enable Mini Player', array($this, 'scepc_swap_player'), 'scep_customizer', 'soundcloud_embeded_player_options');
-		add_settings_field( 'show_artwork', 'Show Arework', array($this, 'scepc_show_artwork'), 'scep_customizer', 'soundcloud_embeded_player_options');
-		add_settings_field( 'play_button_color', 'Play Button Color', array($this, 'scepc_play_button_color'), 'scep_customizer', 'soundcloud_embeded_player_options');
-		add_settings_field( 'auto_play', 'Enable Auto Play', array($this, 'scepc_auto_play'), 'scep_customizer', 'soundcloud_embeded_player_options');
-		add_settings_field( 'hide_related', 'Hide Related', array($this, 'scepc_hide_related'), 'scep_customizer', 'soundcloud_embeded_player_options');
-		add_settings_field( 'show_user', 'Show User', array($this, 'scepc_show_user'), 'scep_customizer', 'soundcloud_embeded_player_options');
-		add_settings_field( 'show_comments', 'Show Comments', array($this, 'scepc_show_comments'), 'scep_customizer', 'soundcloud_embeded_player_options');
-		add_settings_field( 'show_reposts', 'Show Reposts', array($this, 'scepc_show_reposts'), 'scep_customizer', 'soundcloud_embeded_player_options');
-	}
 	public function oEmbedSoundcloudPlayerCustomizer_custom_settings() {
 		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'swap_player' );
 		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'show_artwork' );
@@ -133,7 +114,7 @@ public function scepc_custom_settings() {
 		add_settings_field( 'show_reposts', 'Show Reposts', array($this, 'oEmbedSoundcloudPlayerCustomizer_show_reposts'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_options() {
-echo 'Customize Soundcloud player embed for Wrodpress';
+		echo 'Customize Soundcloud player embed for Wrodpress';
 	}
 	private function is_checked($field, $value) {
 		return checked( $field, $value, false );
