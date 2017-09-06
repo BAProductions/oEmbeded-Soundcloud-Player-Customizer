@@ -1,7 +1,7 @@
 <div class="wrap">
   <h1><?php echo esc_html(get_admin_page_title())?></h1>
   <?php settings_errors(); ?>
-  <form method="post" action="options.php" id="souncloud_players_customizer_form" name="souncloud_players_customizer_form">
+  <form method="post" action="options.php" id="oembed_souncloud_players_customizer_form" name="oembed_souncloud_players_customizer_form">
     <table class="form-table">
       <?php 
 	    settings_fields();
