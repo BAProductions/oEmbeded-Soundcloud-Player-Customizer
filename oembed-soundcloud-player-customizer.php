@@ -45,16 +45,6 @@ class oEmbedSoundcloudPlayerCustomizer
 			// actually, I worked with wordpress last year and
 			// i think this is a good place to call add_shortcode 
 			// (and all other filters) now...
-<<<<<<< Updated upstream:soundcloud-oembed-player-customizer.php
-			add_action( 'admin_menu', array($this, 'scepc_options_page'));
-			add_action( 'admin_enqueue_scripts', array($this, 'scepc_add_color_picker'));
-			add_action( 'admin_init', array($this, 'scepc_custom_settings'));
-			add_action( 'embed_oembed_html', array($this, 'soundcloud_embed'), 10, 3);
-			register_activation_hook( __FILE__, array($this, 'scepc_activate') );
-			register_deactivation_hook( __FILE__, array($this, 'scepc_deactivate') );
-	}
-	public function scepc_activate() {
-=======
 			add_action( 'admin_menu', array($this, 'oEmbedSoundcloudPlayerCustomizer_options_page'));
 			add_action( 'admin_enqueue_scripts', array($this, 'oEmbedSoundcloudPlayerCustomizer_enqueue_script'));
 			add_action( 'admin_init', array($this, 'oEmbedSoundcloudPlayerCustomizer_custom_settings'));
@@ -63,7 +53,6 @@ class oEmbedSoundcloudPlayerCustomizer
 			register_deactivation_hook( __FILE__, array($this, 'oEmbedSoundcloudPlayerCustomizer_deactivate') );
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_activate() {
->>>>>>> Stashed changes:oembed-soundcloud-player-customizer.php
 		// Activation code here
 		$this->oEmbedSoundcloudPlayerCustomizer_options_page();
 		$this->oEmbedSoundcloudPlayerCustomizer_enqueue_script();
@@ -76,17 +65,13 @@ class oEmbedSoundcloudPlayerCustomizer
 		global $wp_rewrite;
 		$wp_rewrite->flush_rules();
 	}
-<<<<<<< Updated upstream:soundcloud-oembed-player-customizer.php
-	public function scepc_deactivate() {
+public function scepc_deactivate() {
 		// Deactivation code here
 		global $wp_rewrite;
 		$wp_rewrite->flush_rules();
 	}
-	public function scepc_add_color_picker( $hook ) {
-=======
 	public function oEmbedSoundcloudPlayerCustomizer_enqueue_script( $hook ) {
->>>>>>> Stashed changes:oembed-soundcloud-player-customizer.php
-		if( is_admin() ) { 
+	if( is_admin() ) { 
 			if( 'toplevel_page_o-embe-soundcloud-player-customizer' == $hook ){ 
 				// Add the color picker css file       
 				wp_enqueue_style( 'wp-color-picker' ); 
@@ -114,8 +99,7 @@ class oEmbedSoundcloudPlayerCustomizer
 			110
 		);
 	}
-<<<<<<< Updated upstream:soundcloud-oembed-player-customizer.php
-	public function scepc_custom_settings() {
+public function scepc_custom_settings() {
 		register_setting( 'scepc_settings_group', 'swap_player' );
 		register_setting( 'scepc_settings_group', 'show_artwork' );
 		register_setting( 'scepc_settings_group', 'play_button_color', array(&$this, 'scepc_sanitize_color_handler') );
@@ -134,8 +118,6 @@ class oEmbedSoundcloudPlayerCustomizer
 		add_settings_field( 'show_comments', 'Show Comments', array($this, 'scepc_show_comments'), 'scep_customizer', 'soundcloud_embeded_player_options');
 		add_settings_field( 'show_reposts', 'Show Reposts', array($this, 'scepc_show_reposts'), 'scep_customizer', 'soundcloud_embeded_player_options');
 	}
-	public function soundcloud_embeded_player_options() {
-=======
 	public function oEmbedSoundcloudPlayerCustomizer_custom_settings() {
 		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'swap_player' );
 		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'show_artwork' );
@@ -156,8 +138,7 @@ class oEmbedSoundcloudPlayerCustomizer
 		add_settings_field( 'show_reposts', 'Show Reposts', array($this, 'oEmbedSoundcloudPlayerCustomizer_show_reposts'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_options() {
->>>>>>> Stashed changes:oembed-soundcloud-player-customizer.php
-		echo 'Customize Soundcloud player embed for Wrodpress';
+echo 'Customize Soundcloud player embed for Wrodpress';
 	}
 	private function is_checked($field, $value) {
 		return checked( $field, $value, false );
