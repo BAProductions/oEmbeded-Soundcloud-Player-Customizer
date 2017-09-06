@@ -65,13 +65,8 @@ class oEmbedSoundcloudPlayerCustomizer
 		global $wp_rewrite;
 		$wp_rewrite->flush_rules();
 	}
-public function scepc_deactivate() {
-		// Deactivation code here
-		global $wp_rewrite;
-		$wp_rewrite->flush_rules();
-	}
 	public function oEmbedSoundcloudPlayerCustomizer_enqueue_script( $hook ) {
-	if( is_admin() ) { 
+		if( is_admin() ) { 
 			if( 'toplevel_page_o-embe-soundcloud-player-customizer' == $hook ){ 
 				// Add the color picker css file       
 				wp_enqueue_style( 'wp-color-picker' ); 
