@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: Soundcloud oEmbed Player Customizer
-Plugin URI:  https://github.com/BAProductions
+Plugin Name: oEmbed Soundcloud Player Customizer
+Plugin URI:  https://github.com/BAProductions/oEmbeded-Soundcloud-Player-Customizer
 Description: Customize Embed Soundcloud Player in WrodPress
 Version:     0.1
 Author:      PressThemes/BAProductions/DJANHipHop
@@ -11,18 +11,18 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: scoepc
 Domain Path: /languages
 */
-/*{Soundcloud oEmbed Player Customizer} is free software: you can redistribute it and/or modify
+/*{oEmbed Soundcloud Player Customizer} is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or
 any later version.
  
-{Soundcloud oEmbed Player Customizer} is distributed in the hope that it will be useful,
+{oEmbed Soundcloud Player Customizer} is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
  
 You should have received a copy of the GNU General Public License
-along with {Plugin Name}. If not, see {License URI}.
+along with {oEmbed Soundcloud Player Customizer}. If not, see {License URI}.
 */
 ?>
 <?php 
@@ -38,13 +38,14 @@ if ( !function_exists("add_action") ) {
 }
 ?>
 <?php
-class scepc
+class oEmbedSoundcloudPlayerCustomizer
 {
 	public function __construct() {
 			// don't call add_shortcode here
 			// actually, I worked with wordpress last year and
 			// i think this is a good place to call add_shortcode 
 			// (and all other filters) now...
+<<<<<<< Updated upstream:soundcloud-oembed-player-customizer.php
 			add_action( 'admin_menu', array($this, 'scepc_options_page'));
 			add_action( 'admin_enqueue_scripts', array($this, 'scepc_add_color_picker'));
 			add_action( 'admin_init', array($this, 'scepc_custom_settings'));
@@ -53,47 +54,67 @@ class scepc
 			register_deactivation_hook( __FILE__, array($this, 'scepc_deactivate') );
 	}
 	public function scepc_activate() {
+=======
+			add_action( 'admin_menu', array($this, 'oEmbedSoundcloudPlayerCustomizer_options_page'));
+			add_action( 'admin_enqueue_scripts', array($this, 'oEmbedSoundcloudPlayerCustomizer_enqueue_script'));
+			add_action( 'admin_init', array($this, 'oEmbedSoundcloudPlayerCustomizer_custom_settings'));
+			add_action( 'embed_oembed_html', array($this, 'oEmbedSoundcloudPlayerCustomizer_embed'), 10, 3);
+			register_activation_hook( __FILE__, array($this, 'oEmbedSoundcloudPlayerCustomizer_activate') );
+			register_deactivation_hook( __FILE__, array($this, 'oEmbedSoundcloudPlayerCustomizer_deactivate') );
+	}
+	public function oEmbedSoundcloudPlayerCustomizer_activate() {
+>>>>>>> Stashed changes:oembed-soundcloud-player-customizer.php
 		// Activation code here
-		$this->scepc_options_page();
-		$this->scepc_add_color_picker();
-		$this->scepc_custom_settings();
+		$this->oEmbedSoundcloudPlayerCustomizer_options_page();
+		$this->oEmbedSoundcloudPlayerCustomizer_enqueue_script();
+		$this->oEmbedSoundcloudPlayerCustomizer_custom_settings();
 		global $wp_rewrite;
 		$wp_rewrite->flush_rules();
 	}
+	public function oEmbedSoundcloudPlayerCustomizer_deactivate() {
+		// Deactivation code here
+		global $wp_rewrite;
+		$wp_rewrite->flush_rules();
+	}
+<<<<<<< Updated upstream:soundcloud-oembed-player-customizer.php
 	public function scepc_deactivate() {
 		// Deactivation code here
 		global $wp_rewrite;
 		$wp_rewrite->flush_rules();
 	}
 	public function scepc_add_color_picker( $hook ) {
+=======
+	public function oEmbedSoundcloudPlayerCustomizer_enqueue_script( $hook ) {
+>>>>>>> Stashed changes:oembed-soundcloud-player-customizer.php
 		if( is_admin() ) { 
-			if( 'toplevel_page_sc-customizer' == $hook ){ 
+			if( 'toplevel_page_o-embe-soundcloud-player-customizer' == $hook ){ 
 				// Add the color picker css file       
 				wp_enqueue_style( 'wp-color-picker' ); 
 				// Include our custom jQuery file with WordPress Color Picker dependency
-				wp_enqueue_script( 'custom-script-handle', plugins_url( 'js/player-color-picker.js', __FILE__ ), array( 'wp-color-picker' ), '1.0.0', true );
+				wp_enqueue_script( 'oEmbedSoundcloudPlayerCustomizer_player_color_picker_js', plugins_url( 'js/player-color-picker.js', __FILE__ ), array( 'wp-color-picker' ), '1.0.0', false );
 				// Include our custom jQuery file with to handle the live update of both player
-				wp_enqueue_script( 'scepc_admin_js', plugins_url( 'js/player-live-update.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
+				wp_enqueue_script( 'oEmbedSoundcloudPlayerCustomizer_admin_js', plugins_url( 'js/player-live-update.js', __FILE__ ), array( 'jquery' ), '1.0.0', false );
 				// Include css to style the Soundcloud embedded player customizer admin page
-				wp_enqueue_style( 'scepc_admin_style', plugins_url( '/css/scec.admin.css', __FILE__ ), array(), '1.0.0', 'all' );
+				wp_enqueue_style( 'oEmbedSoundcloudPlayerCustomizer_admin_style', plugins_url( '/css/oEmbedSoundcloudPlayerCustomizer.admin.css', __FILE__ ), array(), '1.0.0', 'all' );
 			}else{
 				return $hook; 
 			}
 		}
 	}
-	public function scepc_options_page() {
+	public function oEmbedSoundcloudPlayerCustomizer_options_page() {
 		//Genrate Soundcloud embedded player customizer admin page
 		add_menu_page(
-			'Soundcloud Embeded player Customizer',
+			'oEmbed Soundcloud Player Customizer',
 			__('SC Customizer'),
 			'manage_options',
-			'sc-customizer',
-			array($this, 'scepc_options_page_html'),
+			'o-embe-soundcloud-player-customizer',
+			array($this, 'oEmbedSoundcloudPlayerCustomizer_options_page_html'),
 			plugin_dir_url(__FILE__)  . 'images/icon_scec.png',
 			plugin_dir_url(__FILE__)  . 'images/icon_scec.png',
 			110
 		);
 	}
+<<<<<<< Updated upstream:soundcloud-oembed-player-customizer.php
 	public function scepc_custom_settings() {
 		register_setting( 'scepc_settings_group', 'swap_player' );
 		register_setting( 'scepc_settings_group', 'show_artwork' );
@@ -114,6 +135,28 @@ class scepc
 		add_settings_field( 'show_reposts', 'Show Reposts', array($this, 'scepc_show_reposts'), 'scep_customizer', 'soundcloud_embeded_player_options');
 	}
 	public function soundcloud_embeded_player_options() {
+=======
+	public function oEmbedSoundcloudPlayerCustomizer_custom_settings() {
+		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'swap_player' );
+		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'show_artwork' );
+		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'play_button_color', array(&$this, 'oEmbedSoundcloudPlayerCustomizer_sanitize_color_handler') );
+		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'auto_play' );
+		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'hide_related' );
+		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'show_comments' );
+		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'show_user' );
+		register_setting( 'oEmbedSoundcloudPlayerCustomizer_settings_group', 'show_reposts' );
+		add_settings_section( 'oEmbedSoundcloudPlayerCustomizer_options', 'Player Setting', array($this, 'oEmbedSoundcloudPlayerCustomizer_options'), 'oEmbedSoundcloudPlayerCustomizer_customizer');
+		add_settings_field( 'swap_player', 'Enable Mini Player', array($this, 'oEmbedSoundcloudPlayerCustomizer_swap_player'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
+		add_settings_field( 'show_artwork', 'Show Arework', array($this, 'oEmbedSoundcloudPlayerCustomizer_show_artwork'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
+		add_settings_field( 'play_button_color', 'Play Button Color', array($this, 'oEmbedSoundcloudPlayerCustomizer_play_button_color'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
+		add_settings_field( 'auto_play', 'Enable Auto Play', array($this, 'oEmbedSoundcloudPlayerCustomizer_auto_play'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
+		add_settings_field( 'hide_related', 'Hide Related', array($this, 'oEmbedSoundcloudPlayerCustomizer_hide_related'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
+		add_settings_field( 'show_user', 'Show User', array($this, 'oEmbedSoundcloudPlayerCustomizer_show_user'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
+		add_settings_field( 'show_comments', 'Show Comments', array($this, 'oEmbedSoundcloudPlayerCustomizer_show_comments'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
+		add_settings_field( 'show_reposts', 'Show Reposts', array($this, 'oEmbedSoundcloudPlayerCustomizer_show_reposts'), 'oEmbedSoundcloudPlayerCustomizer_customizer', 'oEmbedSoundcloudPlayerCustomizer_options');
+	}
+	public function oEmbedSoundcloudPlayerCustomizer_options() {
+>>>>>>> Stashed changes:oembed-soundcloud-player-customizer.php
 		echo 'Customize Soundcloud player embed for Wrodpress';
 	}
 	private function is_checked($field, $value) {
@@ -122,35 +165,35 @@ class scepc
 	private function default_Value($options, $default_value){
 		return ( $options || $options == '1' || $options == '0' ? $options : $default_value);
 	}
-	public function scepc_swap_player() {
+	public function oEmbedSoundcloudPlayerCustomizer_swap_player() {
 		$swap_player = esc_attr( get_option( 'swap_player' ) );
 		echo '<input type="checkbox" name="swap_player" value="1" id="swap_player" placeholder="Enable Mini Player" '.$this->is_checked( $swap_player, 1 ).'/>';
 	}
-	public function scepc_show_artwork() {
+	public function oEmbedSoundcloudPlayerCustomizer_show_artwork() {
 		$show_artwork = $this->default_Value(esc_attr( get_option( 'show_artwork' ), '0' ));
 		echo '<input type="checkbox" name="show_artwork" value="1" id="show_artwork" placeholder="Show Arework" '.$this->is_checked( $show_artwork, 1 ).'/>';
 	}
-	public function scepc_play_button_color() {
+	public function oEmbedSoundcloudPlayerCustomizer_play_button_color() {
 		$play_button_color = $this->default_Value(esc_attr( get_option( 'play_button_color' ) ), 'FF5500');
 		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" id="play_button_color" placeholder="Play Button Color" class="player_color"/>';
 	}
-	public function scepc_auto_play() {
+	public function oEmbedSoundcloudPlayerCustomizer_auto_play() {
 		$auto_play = esc_attr( get_option( 'auto_play' ) );
 		echo '<input type="checkbox" name="auto_play" value="1" id="auto_play" placeholder="Enable Auto Play" '.$this->is_checked( $auto_play, 1 ).'/>';
 	}
-	public function scepc_hide_related() {
+	public function oEmbedSoundcloudPlayerCustomizer_hide_related() {
 		$hide_related = $this->default_Value(esc_attr( get_option( 'hide_related' ), '0' ));
 		echo '<input type="checkbox" name="hide_related" value="0" id="hide_related" placeholder="Hide Related" '.$this->is_checked( $hide_related, 0 ).'/>';
 	}
-	public function scepc_show_user() {
+	public function oEmbedSoundcloudPlayerCustomizer_show_user() {
 		$show_user = $this->default_Value(esc_attr( get_option( 'show_user' ), '1' ));
 		echo '<input type="checkbox" name="show_user" value="1" id="show_user" placeholder="Show User" '.$this->is_checked( $show_user, 1 ).'/>';
 	}
-	public function scepc_show_comments() {
+	public function oEmbedSoundcloudPlayerCustomizer_show_comments() {
 		$show_comments = $this->default_Value(esc_attr( get_option( 'show_comments' ), '1' ));
 		echo '<input type="checkbox" name="show_comments" value="1" id="show_comments" placeholder="Show Comments" '.$this->is_checked( $show_comments, 1 ).'/>';
 	}
-	public function scepc_show_reposts() {
+	public function oEmbedSoundcloudPlayerCustomizer_show_reposts() {
 		$show_reposts = $this->default_Value(esc_attr( get_option( 'show_reposts' ), '1' ));
 		echo '<input type="checkbox" name="show_reposts" value="1" id="show_reposts" placeholder="Show Repost" '.$this->is_checked( $show_reposts, 1 ).'/>';
 	}
@@ -172,18 +215,12 @@ class scepc
 		$hex = implode( '', $substr );
 		return ( ! $hash ) ? $hex : '#' . $hex;
 	}
-	public function scepc_sanitize_color_handler( $input ){
+	public function oEmbedSoundcloudPlayerCustomizer_sanitize_color_handler( $input ){
 		$output = sanitize_text_field( $input );
 		$output = $this->aristath_sanitize_hex( $output );
 		return $output;
 	}
-	/*public function scepc_sanitize_height_handler( $input ){
-		$output = sanitize_text_field( $input );
-		$output = str_replace('px', '', $output);
-		return $output;
-	}*/
-	public function scepc_options_page_html() {
-		//echo  plugin_dir_path(__FILE__) . 'admin/sc-customizer.php';
+	public function oEmbedSoundcloudPlayerCustomizer_options_page_html() {
 		require_once( plugin_dir_path(__FILE__) . 'admin/sc-customizer.php' );
 	}
 	private function is_options_true($options) {
@@ -192,7 +229,7 @@ class scepc
 	private function is_options_false($options) {
 		return ( $options ==1 ? 'false' : 'true' );
 	}
-	public function soundcloud_embed($html, $url) {
+	public function oEmbedSoundcloudPlayerCustomizer_embed($html, $url) {
 	  // Only use this filter on Soundcloud embeds
 	  if(preg_match("/soundcloud.com/", $url)) {
 		$visual				=	$this->is_options_false(get_option( 'swap_player' ));    	// change deafult Soundcloud player on wordpress to the Soundcloud mini player dont touch
@@ -242,10 +279,6 @@ class scepc
 	}
 // hook into the Wordpress oembed filter
 }
-if (class_exists('scepc')){
-	$scepc = new scepc();
-	//add_action( 'admin_menu', array($this, 'scepc_options_page'));
-	//add_action( 'admin_enqueue_scripts', array($this, 'wptuts_add_color_picker'));
-	//add_action( 'admin_init', array($this, 'scepc_custom_settings'));
-	//add_action( 'embed_oembed_html', array($this, 'soundCloud_embed'), 10, 3);
+if (class_exists('oEmbedSoundcloudPlayerCustomizer')){
+	$oEmbedSoundcloudPlayerCustomizer = new oEmbedSoundcloudPlayerCustomizer();
 }
