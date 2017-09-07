@@ -46,11 +46,20 @@ class oEmbedSoundcloudPlayerCustomizer
 			// i think this is a good place to call add_shortcode 
 			// (and all other filters) now...
 	}
-	private function oEmbedSoundcloudPlayerCustomizer_init(){
-			add_action( 'admin_menu', array($this, 'oEmbedSoundcloudPlayerCustomizer_options_page'));
-			add_action( 'admin_enqueue_scripts', array($this, 'oEmbedSoundcloudPlayerCustomizer_enqueue_script'));
-			add_action( 'admin_init', array($this, 'oEmbedSoundcloudPlayerCustomizer_custom_settings'));
-			add_action( 'embed_oembed_html', array($this, 'oEmbedSoundcloudPlayerCustomizer_embed'), 10, 3);
+	public function oEmbedSoundcloudPlayerCustomizer_init(){
+		add_action( 'admin_menu', array($this, 'oEmbedSoundcloudPlayerCustomizer_options_page'));
+		add_action( 'admin_enqueue_scripts', array($this, 'oEmbedSoundcloudPlayerCustomizer_enqueue_script'));
+		add_action( 'admin_init', array($this, 'oEmbedSoundcloudPlayerCustomizer_custom_settings'));
+		add_action( 'embed_oembed_html', array($this, 'oEmbedSoundcloudPlayerCustomizer_embed'), 10, 3);
+	}
+	public function oEmbedSoundcloudPlayerCustomizer_update(){
+		( !empty(get_option( 'swap_player' ) ) ? update_option( 'swap_player', 1 ) : '' );
+		( !empty(get_option( 'show_artwork' ) ) ? update_option( 'show_artwork', 1 ) : '' );
+		( empty(get_option( 'play_button_color' ) ) ? update_option( 'play_button_color', 'FF9900' ) : '' );
+		( !empty(get_option( 'hide_related' ) ) ? update_option( 'hide_related', 0 ) : '' );
+		( !empty(get_option( 'show_comments' ) ) ? update_option( 'show_comments', 1 ) : '' );
+		( !empty(get_option( 'show_user' ) ) ? update_option( 'show_user', 1 ) : '' );
+		( !empty(get_option( 'show_reposts' ) ) ? update_option( 'show_reposts', 1 ) : '' );
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_activate() {
 		// Activation code here
@@ -117,19 +126,16 @@ class oEmbedSoundcloudPlayerCustomizer
 	private function is_checked($field, $value) {
 		return checked( $field, $value, false );
 	}
-	private function default_Value($options, $default_value){
-		return ( $options || $options == '1' || $options == '0' ? $options : $default_value);
-	}
 	public function oEmbedSoundcloudPlayerCustomizer_swap_player() {
 		$swap_player = esc_attr( get_option( 'swap_player' ) );
 		echo '<input type="checkbox" name="swap_player" value="1" id="swap_player" placeholder="Enable Mini Player" '.$this->is_checked( $swap_player, 1 ).'/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_show_artwork() {
-		$show_artwork = $this->default_Value(esc_attr( get_option( 'show_artwork' ), '0' ));
+		$show_artwork = esc_attr( get_option( 'show_artwork' ), '0' );
 		echo '<input type="checkbox" name="show_artwork" value="1" id="show_artwork" placeholder="Show Arework" '.$this->is_checked( $show_artwork, 1 ).'/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_play_button_color() {
-		$play_button_color = $this->default_Value(esc_attr( get_option( 'play_button_color' ) ), 'FF5500');
+		$play_button_color = esc_attr( get_option( 'play_button_color' ) );
 		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" id="play_button_color" placeholder="Play Button Color" class="player_color"/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_auto_play() {
@@ -137,19 +143,19 @@ class oEmbedSoundcloudPlayerCustomizer
 		echo '<input type="checkbox" name="auto_play" value="1" id="auto_play" placeholder="Enable Auto Play" '.$this->is_checked( $auto_play, 1 ).'/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_hide_related() {
-		$hide_related = $this->default_Value(esc_attr( get_option( 'hide_related' ), '0' ));
+		$hide_related = esc_attr( get_option( 'hide_related' ), '0' );
 		echo '<input type="checkbox" name="hide_related" value="0" id="hide_related" placeholder="Hide Related" '.$this->is_checked( $hide_related, 0 ).'/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_show_user() {
-		$show_user = $this->default_Value(esc_attr( get_option( 'show_user' ), '1' ));
+		$show_user = esc_attr( get_option( 'show_user' ), '1' );
 		echo '<input type="checkbox" name="show_user" value="1" id="show_user" placeholder="Show User" '.$this->is_checked( $show_user, 1 ).'/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_show_comments() {
-		$show_comments = $this->default_Value(esc_attr( get_option( 'show_comments' ), '1' ));
+		$show_comments = esc_attr( get_option( 'show_comments' ), '1' );
 		echo '<input type="checkbox" name="show_comments" value="1" id="show_comments" placeholder="Show Comments" '.$this->is_checked( $show_comments, 1 ).'/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_show_reposts() {
-		$show_reposts = $this->default_Value(esc_attr( get_option( 'show_reposts' ), '1' ));
+		$show_reposts = esc_attr( get_option( 'show_reposts' ), '1' );
 		echo '<input type="checkbox" name="show_reposts" value="1" id="show_reposts" placeholder="Show Repost" '.$this->is_checked( $show_reposts, 1 ).'/>';
 	}
 	private function aristath_sanitize_hex( $color = '#FF5500', $hash = true ) {
@@ -189,7 +195,7 @@ class oEmbedSoundcloudPlayerCustomizer
 	  if(preg_match("/soundcloud.com/", $url)) {
 		$visual				=	$this->is_options_false(get_option( 'swap_player' ));    	// change deafult Soundcloud player on wordpress to the Soundcloud mini player dont touch
 		$show_artwork		=	$this->is_options_true(get_option( 'show_artwork' ));    	// change deafult Soundcloud player on wordpress to the Soundcloud mini player dont touch
-		$play_button_color 	= 	str_replace( '#', '', $this->default_Value( get_option( 'play_button_color' ), 'FF5500' ) );					// change play button color of the Soundcloud mini player change
+		$play_button_color 	= 	str_replace( '#', '', get_option( 'play_button_color' ) ) ;					// change play button color of the Soundcloud mini player change
 		$auto_play			=	$this->is_options_true(get_option( 'auto_play' )); 		// enable autoplay for the Soundcloud mini player dont touch vey anoying 
 		$hide_related		=	$this->is_options_true(get_option( 'hide_related' )); 		// hide related for the Soundcloud mini player dont touch
 		$show_comments		=	$this->is_options_true(get_option( 'show_comments' ));		// show comments for the Soundcloud mini player dont touch
@@ -237,6 +243,7 @@ class oEmbedSoundcloudPlayerCustomizer
 if (class_exists('oEmbedSoundcloudPlayerCustomizer')){
 	$oEmbedSoundcloudPlayerCustomizer = new oEmbedSoundcloudPlayerCustomizer();
 	$oEmbedSoundcloudPlayerCustomizer->oEmbedSoundcloudPlayerCustomizer_init();
+	$oEmbedSoundcloudPlayerCustomizer->oEmbedSoundcloudPlayerCustomizer_update();
 }
 register_activation_hook( __FILE__, array($oEmbedSoundcloudPlayerCustomizer, 'oEmbedSoundcloudPlayerCustomizer_activate') );
 register_deactivation_hook( __FILE__, array($oEmbedSoundcloudPlayerCustomizer, 'oEmbedSoundcloudPlayerCustomizer_deactivate') );
