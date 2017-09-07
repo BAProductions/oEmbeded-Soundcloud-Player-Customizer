@@ -45,6 +45,8 @@ class oEmbedSoundcloudPlayerCustomizer
 			// actually, I worked with wordpress last year and
 			// i think this is a good place to call add_shortcode 
 			// (and all other filters) now...
+	}
+	private function oEmbedSoundcloudPlayerCustomizer_init(){
 			add_action( 'admin_menu', array($this, 'oEmbedSoundcloudPlayerCustomizer_options_page'));
 			add_action( 'admin_enqueue_scripts', array($this, 'oEmbedSoundcloudPlayerCustomizer_enqueue_script'));
 			add_action( 'admin_init', array($this, 'oEmbedSoundcloudPlayerCustomizer_custom_settings'));
@@ -234,6 +236,7 @@ class oEmbedSoundcloudPlayerCustomizer
 }
 if (class_exists('oEmbedSoundcloudPlayerCustomizer')){
 	$oEmbedSoundcloudPlayerCustomizer = new oEmbedSoundcloudPlayerCustomizer();
+	$oEmbedSoundcloudPlayerCustomizer->oEmbedSoundcloudPlayerCustomizer_init();
 }
 register_activation_hook( __FILE__, array($oEmbedSoundcloudPlayerCustomizer, 'oEmbedSoundcloudPlayerCustomizer_activate') );
 register_deactivation_hook( __FILE__, array($oEmbedSoundcloudPlayerCustomizer, 'oEmbedSoundcloudPlayerCustomizer_deactivate') );
