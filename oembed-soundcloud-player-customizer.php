@@ -49,21 +49,17 @@ class oEmbedSoundcloudPlayerCustomizer
 			add_action( 'admin_enqueue_scripts', array($this, 'oEmbedSoundcloudPlayerCustomizer_enqueue_script'));
 			add_action( 'admin_init', array($this, 'oEmbedSoundcloudPlayerCustomizer_custom_settings'));
 			add_action( 'embed_oembed_html', array($this, 'oEmbedSoundcloudPlayerCustomizer_embed'), 10, 3);
-			register_activation_hook( __FILE__, array($this, 'oEmbedSoundcloudPlayerCustomizer_activate') );
-			register_deactivation_hook( __FILE__, array($this, 'oEmbedSoundcloudPlayerCustomizer_deactivate') );
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_activate() {
 		// Activation code here
 		$this->oEmbedSoundcloudPlayerCustomizer_options_page();
 		$this->oEmbedSoundcloudPlayerCustomizer_enqueue_script();
 		$this->oEmbedSoundcloudPlayerCustomizer_custom_settings();
-		global $wp_rewrite;
-		$wp_rewrite->flush_rules();
+		flush_rewrite_rules();
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_deactivate() {
 		// Deactivation code here
-		global $wp_rewrite;
-		$wp_rewrite->flush_rules();
+		flush_rewrite_rules();
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_enqueue_script( $hook ) {
 		if( is_admin() ) { 
@@ -239,3 +235,5 @@ class oEmbedSoundcloudPlayerCustomizer
 if (class_exists('oEmbedSoundcloudPlayerCustomizer')){
 	$oEmbedSoundcloudPlayerCustomizer = new oEmbedSoundcloudPlayerCustomizer();
 }
+register_activation_hook( __FILE__, array($oEmbedSoundcloudPlayerCustomizer, 'oEmbedSoundcloudPlayerCustomizer_activate') );
+register_deactivation_hook( __FILE__, array($oEmbedSoundcloudPlayerCustomizer, 'oEmbedSoundcloudPlayerCustomizer_deactivate') );
