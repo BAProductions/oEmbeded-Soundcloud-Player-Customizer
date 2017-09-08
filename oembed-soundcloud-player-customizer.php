@@ -118,9 +118,6 @@ class oEmbedSoundcloudPlayerCustomizer
 	private function is_checked($field, $value) {
 		return checked( $field, $value, false );
 	}
-	private function is_color_empty($color) {
-		return ( !empty( $color ) ? $color: '#ff5500' );
-	}
 	public function oEmbedSoundcloudPlayerCustomizer_swap_player() {
 		$swap_player = esc_attr( get_option( 'swap_player' ) );
 		echo '<input type="checkbox" name="swap_player" value="1" id="swap_player" placeholder="Enable Mini Player" '.$this->is_checked( $swap_player, 1 ).'/>';
@@ -130,8 +127,8 @@ class oEmbedSoundcloudPlayerCustomizer
 		echo '<input type="checkbox" name="show_artwork" value="1" id="show_artwork" placeholder="Show Arework" '.$this->is_checked( $show_artwork, 1 ).'/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_play_button_color() {
-		$play_button_color = $this->is_color_empty( esc_attr( get_option( 'play_button_color' ) ) );
-		echo '<input type="text" name="play_button_color" value="'.$play_button_color .'" id="play_button_color" placeholder="#FF9900" class="player_color"/>';
+		$play_button_color = esc_attr( get_option( 'play_button_color' ));
+		echo '<input type="text" name="play_button_color" value="'.$play_button_color .'" id="play_button_color" placeholder="#FF9900" class="player_color" data-default-color="#ff5500"/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_auto_play() {
 		$auto_play = esc_attr( get_option( 'auto_play' ) );

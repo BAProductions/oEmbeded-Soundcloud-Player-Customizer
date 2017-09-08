@@ -10,7 +10,9 @@
     // a callback to fire when the input is emptied or an invalid color
     clear: function() {},
     // hide the color picker controls on load
-    hide: true,
+    hide: true,	
+	// The default width of the color picker 
+	width: 250,
     // show a group of common colors beneath the square
     // or, supply an array of colors to customize further
     palettes: ['#ff5500','#0066cc','#00aabb','#00cc11','#ff9900']
