@@ -52,15 +52,6 @@ class oEmbedSoundcloudPlayerCustomizer
 		add_action( 'admin_init', array($this, 'oEmbedSoundcloudPlayerCustomizer_custom_settings'));
 		add_action( 'embed_oembed_html', array($this, 'oEmbedSoundcloudPlayerCustomizer_embed'), 10, 3);
 	}
-	public function oEmbedSoundcloudPlayerCustomizer_update(){
-		( !empty(get_option( 'swap_player' ) ) ? update_option( 'swap_player', 1 ) : '' );
-		( !empty(get_option( 'show_artwork' ) ) ? update_option( 'show_artwork', 1 ) : '' );
-		( empty(get_option( 'play_button_color' ) ) ? update_option( 'play_button_color', 'FF9900' ) : '' );
-		( !empty(get_option( 'hide_related' ) ) ? update_option( 'hide_related', 0 ) : '' );
-		( !empty(get_option( 'show_comments' ) ) ? update_option( 'show_comments', 1 ) : '' );
-		( !empty(get_option( 'show_user' ) ) ? update_option( 'show_user', 1 ) : '' );
-		( !empty(get_option( 'show_reposts' ) ) ? update_option( 'show_reposts', 1 ) : '' );
-	}
 	public function oEmbedSoundcloudPlayerCustomizer_activate() {
 		// Activation code here
 		$this->oEmbedSoundcloudPlayerCustomizer_options_page();
@@ -77,6 +68,7 @@ class oEmbedSoundcloudPlayerCustomizer
 			if( 'toplevel_page_o-embe-soundcloud-player-customizer' == $hook ){ 
 				// Add the color picker css file       
 				wp_enqueue_style( 'wp-color-picker' ); 
+				wp_enqueue_script( 'wp-color-picker' );
 				// Include our custom jQuery file with WordPress Color Picker dependency
 				wp_enqueue_script( 'oEmbedSoundcloudPlayerCustomizer_player_color_picker_js', plugins_url( 'js/player-color-picker.js', __FILE__ ), array( 'wp-color-picker' ), '1.0.0', false );
 				// Include our custom jQuery file with to handle the live update of both player
@@ -126,17 +118,20 @@ class oEmbedSoundcloudPlayerCustomizer
 	private function is_checked($field, $value) {
 		return checked( $field, $value, false );
 	}
+	private function is_color_empty($color) {
+		return ( !empty( $color ) ? $color: '#ff5500' );
+	}
 	public function oEmbedSoundcloudPlayerCustomizer_swap_player() {
 		$swap_player = esc_attr( get_option( 'swap_player' ) );
 		echo '<input type="checkbox" name="swap_player" value="1" id="swap_player" placeholder="Enable Mini Player" '.$this->is_checked( $swap_player, 1 ).'/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_show_artwork() {
-		$show_artwork = esc_attr( get_option( 'show_artwork' ), '0' );
+		$show_artwork = esc_attr( get_option( 'show_artwork' ) );
 		echo '<input type="checkbox" name="show_artwork" value="1" id="show_artwork" placeholder="Show Arework" '.$this->is_checked( $show_artwork, 1 ).'/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_play_button_color() {
-		$play_button_color = esc_attr( get_option( 'play_button_color' ) );
-		echo '<input type="text" name="play_button_color" value="'.$play_button_color.'" id="play_button_color" placeholder="Play Button Color" class="player_color"/>';
+		$play_button_color = $this->is_color_empty( esc_attr( get_option( 'play_button_color' ) ) );
+		echo '<input type="text" name="play_button_color" value="'.$play_button_color .'" id="play_button_color" placeholder="#FF9900" class="player_color"/>';
 	}
 	public function oEmbedSoundcloudPlayerCustomizer_auto_play() {
 		$auto_play = esc_attr( get_option( 'auto_play' ) );
@@ -243,7 +238,6 @@ class oEmbedSoundcloudPlayerCustomizer
 if (class_exists('oEmbedSoundcloudPlayerCustomizer')){
 	$oEmbedSoundcloudPlayerCustomizer = new oEmbedSoundcloudPlayerCustomizer();
 	$oEmbedSoundcloudPlayerCustomizer->oEmbedSoundcloudPlayerCustomizer_init();
-	$oEmbedSoundcloudPlayerCustomizer->oEmbedSoundcloudPlayerCustomizer_update();
 }
 register_activation_hook( __FILE__, array($oEmbedSoundcloudPlayerCustomizer, 'oEmbedSoundcloudPlayerCustomizer_activate') );
 register_deactivation_hook( __FILE__, array($oEmbedSoundcloudPlayerCustomizer, 'oEmbedSoundcloudPlayerCustomizer_deactivate') );
