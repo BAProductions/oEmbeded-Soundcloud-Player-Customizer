@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: WP Soundcloud Player Settings
+Plugin Name: WP Soundcloud Player Customizer
 Plugin URI:  https://github.com/BAProductions/oEmbeded-Soundcloud-Player-Customizer
 Description: Customize Embed Soundcloud Player in WordPress
 Version:     0.1
@@ -8,7 +8,7 @@ Author:      PressThemes/BAProductions/DJANHipHop
 Author URI:  https://github.com/BAProductions
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: oescpc
+Text Domain: wpscpc
 Domain Path: /languages
 */
 /*{oEmbed Soundcloud Player Customizer} is free software: you can redistribute it and/or modify
@@ -33,17 +33,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <?php
-class oEmbed_Soundcloud_Player_Customizer {
+class WP_Soundcloud_Player_Customizer {
     public function __construct() {
-        define('OESCPC_PLUGIN_DIR', plugin_dir_path(__FILE__));
+        define('WPSCPC_PLUGIN_DIR', plugin_dir_path(__FILE__));
     }
 
-    public function oEmbed_Soundcloud_Player_Customizer_init(){
-        add_action('oembed_result', array($this, 'oEmbed_Soundcloud_Player_Customizer_embed'), 10, 3);
-        require_once(OESCPC_PLUGIN_DIR . '/customizer/oembed-soundcloud-player-customizer-setting.php');
+    public function wp_soundcloud_player_customizer_init(){
+//        require_once(WPSCPC_PLUGIN_DIR . '/wp-soundcloud-player-customizer-unstall-settings_manager.php');
+        require_once(WPSCPC_PLUGIN_DIR . '/customizer/wp-soundcloud-player-customizer-settings.php');
+        add_action('oembed_result', array($this, 'wp_soundcloud_player_customizer_embed'), 10, 999999);
     }
 
-    public function oEmbed_Soundcloud_Player_Customizer_embed($html, $url) {
+    public function wp_soundcloud_player_customizer_embed($html, $url) {
         // Only use this filter on Soundcloud embeds
         if (strpos($url, 'soundcloud.com') !== false) {
             // Retrieve options with default values
@@ -94,9 +95,9 @@ class oEmbed_Soundcloud_Player_Customizer {
     }
 }
 
-if (class_exists('oEmbed_Soundcloud_Player_Customizer')){
-    $oEmbed_Soundcloud_Player_Customizer = new oEmbed_Soundcloud_Player_Customizer();
-    $oEmbed_Soundcloud_Player_Customizer->oEmbed_Soundcloud_Player_Customizer_init();
+if (class_exists('WP_Soundcloud_Player_Customizer')){
+    $wp_soundcloud_player_customizer = new WP_Soundcloud_Player_Customizer();
+    $wp_soundcloud_player_customizer->wp_soundcloud_player_customizer_init();
 }
 
 ?>
