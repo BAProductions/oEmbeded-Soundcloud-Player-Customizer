@@ -1,16 +1,14 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')){
    return;
 }
-?>
 
-<?php
-class WP_Soundcloud_Player_Customizer_Settings {
+class WP_Soundcloud_Player_Customizer_Settings{
     public function wp_soundcloud_player_customizer_settings_init(){
         add_action( 'customize_register', array( $this, 'wp_soundcloud_player_settings_customizer_settings_panel' ) );
     }
 
-    public function wp_soundcloud_player_settings_customizer_settings_panel($wp_customize) {
+    public function wp_soundcloud_player_settings_customizer_settings_panel($wp_customize){
         // Add a section for Soundcloud player customizer settings
         $wp_customize->add_section('wp_soundcloud_player_customizer', array(
             'title' => __('WP Soundcloud Settings', 'wpscpc'),
@@ -131,7 +129,7 @@ class WP_Soundcloud_Player_Customizer_Settings {
 
         ));
 
-        function sanitize_checkbox($checked) {
+        function sanitize_checkbox($checked){
             return $checked == 1 ? 1 : '';
         }
     }
@@ -141,4 +139,3 @@ if (class_exists('WP_Soundcloud_Player_Customizer_Settings')){
     $wp_soundcloud_player_customizer_settings = new WP_Soundcloud_Player_Customizer_Settings();
     $wp_soundcloud_player_customizer_settings->wp_soundcloud_player_customizer_settings_init();
 }
-?>
